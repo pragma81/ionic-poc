@@ -1,6 +1,6 @@
-angular.module('starter').controller('LoginController', LoginController)
+angular.module('starter').controller('LoginCtrl', LoginController)
 
-function LoginController($scope, $timeout,$stateParams,$cordovaOauth, $localStorage, $location) {
+function LoginController($scope, $timeout, $stateParams, $cordovaOauth, $localStorage, $location) {
 
     $scope.$parent.clearFabs();
     $timeout(function() {
