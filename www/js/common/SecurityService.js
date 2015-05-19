@@ -24,57 +24,39 @@
 
         var service = {
             facebookLogin: facebookLogin,
-            twitterLogin: getCustomers,
+            twitterLogin: twitterLogin,
             isAuthenticated: isAuthenticated,
             logout: logout
         };
 
         return service;
 
-        function getCustomer(id) {
-            return $http.get('/api/customer/' + id)
-                .then(getCustomerComplete)
-                .catch(function(message) {
-                    exception.catcher('XHR Failed for getCustomer')(message);
-                    $location.url('/');
-                });
+        function facebookLogin(successCallback,errorCallback) {
+            $cordovaOauth.facebook(oauthConf.facebook.appKey, ["email", "read_stream", "user_website", "user_location", "user_relationships","user_photos","user_likes"]).then(function(result) {
+            $localStorage.accessToken = result.access_token;
+            isAuthenticated = true;
+                if(successCallback != 'undefined') successCallback(result);
+                if(errorCallback != 'undefined') errorCallback(result);
+            $state.go('app.profile');
+        }, errorCallback);        }
 
-            function getCustomerComplete(data, status, headers, config) {
-                return data.data;
-            }
+        function twitterLogin(successCallback,errorCallback) {
+            $cordovaOauth.facebook(oauthConf.facebook.appKey, ["email", "read_stream", "user_website", "user_location", "user_relationships","user_photos","user_likes"]).then(function(result) {
+            $localStorage.accessToken = result.access_token;
+            isAuthenticated = true;
+                if(successCallback != 'undefined') successCallback(result);
+                if(errorCallback != 'undefined') errorCallback(result);
+            $state.go('app.profile');
+        }, errorCallback);        }
+
+        function isAuthenticated(){
+            return isAuthenticated;
         }
 
-        function getCustomers() {
-            return $http.get('/api/customers')
-                .then(getCustomersComplete)
-                .catch(function(message) {
-                    exception.catcher('XHR Failed for getCustomers')(message);
-                    $location.url('/');
-                });
-
-            function getCustomersComplete(data, status, headers, config) {
-                return data.data;
-            }
+        function logout(){
+            delete $localStorage.accessToken;
+            isAuthenticated = false;
         }
 
-        function getReady() {
-            if (!readyPromise) {
-                // Apps often pre-fetch session data ("prime the app")
-                // before showing the first view.
-                // This app doesn't need priming but we add a
-                // no-op implementation to show how it would work.
-                logger.info('Primed the app data');
-                readyPromise = $q.when(service);
-            }
-            return readyPromise;
-        }
-
-        function ready(promisesArray) {
-            return getReady()
-                .then(function() {
-                    return promisesArray ? $q.all(promisesArray) : readyPromise;
-                })
-                .catch(exception.catcher('"ready" function failed'));
-        }
     }
 })();
