@@ -1,0 +1,39 @@
+<ion-view view-title="Gallery" ng-init="init()">
+    <ion-content ng-class="{expanded:isExpanded}" class="animate-fade-slide-in">
+        <div ng-repeat="oddImage in oddGallery" class="list half">
+            <div ui-sref="app.profile" class="card card-gallery item item-text-wrap">
+                <div class="ink dark-bg">
+                    <img class="full-image" ng-src="{{oddImage.url}}">
+                </div>
+                <div class="item tabs tabs-secondary tabs-icon-left">
+                    <a class="tab-item stable-bg assertive">
+                        <i class="icon ion-heart"></i>
+                        {{oddImage.likes}}
+                    </a>
+                    <a class="tab-item stable-bg positive-900">
+                        <i class="icon ion-chatbubbles"></i>
+                        {{oddImage.comments}}
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div ng-repeat="evenImage in evenGallery" class="list half">
+            <div ui-sref="app.profile" class="card card-gallery item item-text-wrap">
+                <div class="ink dark-bg">
+                    <img class="full-image" ng-src="{{evenImage.url}}">
+                </div>
+                <div class="item tabs tabs-secondary tabs-icon-left">
+                    <a class="tab-item stable-bg assertive">
+                        <i class="icon ion-heart"></i>
+                        {{evenImage.likes}}
+                    </a>
+                    <a class="tab-item stable-bg positive-900">
+                        <i class="icon ion-chatbubbles"></i>
+                        {{evenImage.comments}}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

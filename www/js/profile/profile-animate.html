@@ -1,10 +1,12 @@
-<ion-view view-title="Profile">
+<ion-view view-title="Profile" ng-init="init()">
     <ion-content ng-class="{expanded:$scope.isExpanded}">
-        <div class="hero slide-up" style="background-image: url('img/material-graphite.jpg');">
+        <div class="hero slide-up" ng-style="coverImg">
             <div class="content">
-                <div class="avatar" style="background-image: url('img/daenerys.jpg');"></div>
-                <h3><a class="light">Daenerys Targaryen</a></h3>
-                <h4>dragon_mommy</h4>
+                <div class="avatar" style="background-image: url({{profileData.picture.data.url}});">
+
+                </div>
+                <h3><a class="light">{{profileData.name}}</a></h3>
+                <h4> {{profileData.location.name}}</h4>
             </div>
         </div>
         <div class="tabs tabs-dark tabs-icon-top static">
@@ -18,26 +20,25 @@
                 <i class="icon ion-images"></i> Photos
             </a>
         </div>
-        <h4 class="content padding double-padding-x">Following</h4>
         <div class="list animate-fade-slide-in-right">
-            <a ui-sref="app.friends" class="item item-avatar item-icon-right">
-                <img src="img/jon-snow.jpg">
-                <h2>Jon Snow</h2>
-                <p>Da illest illegitimate</p>
-                <i class="icon ion-chatbubble muted"></i>
-            </a>
-            <a ui-sref="app.friends" class="item item-avatar item-icon-right">
-                <img src="img/sansa.jpg">
-                <h2>Sansa Stark</h2>
-                <p>&amp; Joffrey <strike>sitting</strike> sat in a tree</p>
-                <i class="icon ion-chatbubble muted"></i>
-            </a>
-            <a ui-sref="app.friends" class="item item-avatar item-icon-right">
-                <img src="img/tyrion.jpg">
-                <h2>Tyrion Lannister</h2>
-                <p>B.A.M.F. imp</p>
-                <i class="icon ion-chatbubble muted"></i>
-            </a>
+            <div ng-repeat="post in posts" class="item card-item">
+                <div ui-sref="app.gallery" class="card stable-bg ink ink-dark">
+                    <div class="item item-avatar item-text-wrap">
+                        <span class="avatar" style="background-image: url({{profileData.picture.data.url}});"></span>
+                        <strong>{{post.message}}</strong>
+                        <a class="image"><img ng-src="{{post.picture}}">
+                        </a>
+
+                        <div class="card-footer text-right">
+                            <i class="icon ion-chatbubble positive"></i> 2
+                            <i class="icon ion-heart assertive"></i> 4
+                            <div class="pull-left">
+                                <i class="icon ion-clock"></i> {{post.created_time | date:'medium':'+0100'}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </ion-content>
 </ion-view>

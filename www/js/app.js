@@ -46,26 +46,42 @@ var app = angular.module('starter', ['ionic','ngStorage','ngCordova'])
                 template: ''
             }
         }
-    });
+    })
 
-  /*  .state('app.profile', {
+   .state('app.profile', {
         url: '/profile',
         views: {
             'menuContent': {
-                templateUrl: 'js/profile/profile.html',
-                controller: 'ProfileController'
+                templateUrl: 'js/profile/profile-animate.html',
+                controller: 'ProfileCtrl'
             },
             'fabContent': {
                 template: '<button id="fab-profile" class="button button-fab button-fab-bottom-right button-energized-900"><i class="icon ion-plus"></i></button>',
                 controller: function ($timeout) {
-                    $timeout(function () {
+                   /* $timeout(function () {
                         document.getElementById('fab-profile').classList.toggle('on');
-                    }, 800);
+                    }, 800);*/
                 }
             }
         }
     })
-    ;*/
+     .state('app.gallery', {
+        url: '/gallery',
+        views: {
+            'menuContent': {
+                templateUrl: 'js/gallery/gallery.html',
+                controller: 'GalleryCtrl'
+            },
+            'fabContent': {
+                template: '<button id="fab-gallery" class="button button-fab button-fab-top-right expanded button-energized-900 drop"><i class="icon ion-heart"></i></button>',
+                controller: function ($timeout) {
+                    $timeout(function () {
+                        document.getElementById('fab-gallery').classList.toggle('on');
+                    }, 600);
+                }
+            }
+        }
+    })
 
 
     $urlRouterProvider.otherwise('/app/login');
