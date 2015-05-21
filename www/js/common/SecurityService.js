@@ -10,7 +10,7 @@
 
         var userProfile = {};
         var accessToken = $localStorage.accessToken;
-        var isAuthenticated = accessToken === 'undefined' ? false: true;
+        var authenticated = accessToken === 'undefined' ? false: true;
 
         var oauthConf = {
             "facebook": {
@@ -24,57 +24,41 @@
 
         var service = {
             facebookLogin: facebookLogin,
-            twitterLogin: getCustomers,
+            twitterLogin: twitterLogin,
             isAuthenticated: isAuthenticated,
             logout: logout
         };
 
         return service;
 
-        function getCustomer(id) {
-            return $http.get('/api/customer/' + id)
-                .then(getCustomerComplete)
-                .catch(function(message) {
-                    exception.catcher('XHR Failed for getCustomer')(message);
-                    $location.url('/');
-                });
+    function facebookLogin(loginCallback,errorCallback){
+        $cordovaOauth.facebook(oauthConf.facebook.appKey, ["email", "read_stream", "user_website", "user_location", "user_relationships","user_photos","user_likes"]).then(function(result) {
+            $localStorage.accessToken = result.access_token;
+            accessToken =  $localStorage.accessToken;
+            authenticated = true;
+            loginCallback(result);
+        },function(error){
+            errorCallback(error);
+        })}
 
-            function getCustomerComplete(data, status, headers, config) {
-                return data.data;
-            }
+        function twitterLogin(loginCallback,errorCallback){
+        $cordovaOauth.facebook(oauthConf.facebook.appKey, ["email", "read_stream", "user_website", "user_location", "user_relationships","user_photos","user_likes"]).then(function(result) {
+            $localStorage.accessToken = result.access_token;
+            accessToken =  $localStorage.accessToken;
+            authenticated = true;
+            loginCallback(resul);
+        },function(error){
+            errorCallback(error);
+        })}
+
+    function isAuthenticated(){
+            return authenticated;
         }
 
-        function getCustomers() {
-            return $http.get('/api/customers')
-                .then(getCustomersComplete)
-                .catch(function(message) {
-                    exception.catcher('XHR Failed for getCustomers')(message);
-                    $location.url('/');
-                });
-
-            function getCustomersComplete(data, status, headers, config) {
-                return data.data;
-            }
-        }
-
-        function getReady() {
-            if (!readyPromise) {
-                // Apps often pre-fetch session data ("prime the app")
-                // before showing the first view.
-                // This app doesn't need priming but we add a
-                // no-op implementation to show how it would work.
-                logger.info('Primed the app data');
-                readyPromise = $q.when(service);
-            }
-            return readyPromise;
-        }
-
-        function ready(promisesArray) {
-            return getReady()
-                .then(function() {
-                    return promisesArray ? $q.all(promisesArray) : readyPromise;
-                })
-                .catch(exception.catcher('"ready" function failed'));
+        function logout(){
+            delete $localStorage.accessToken ;
+            accessToken =  undefined;
+            authenticated = false;
         }
     }
 })();

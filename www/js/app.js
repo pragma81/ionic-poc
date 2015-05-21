@@ -52,7 +52,7 @@ var app = angular.module('starter', ['ionic','ngStorage','ngCordova'])
         url: '/profile',
         views: {
             'menuContent': {
-                templateUrl: 'js/profile/profile-animate.html',
+                templateUrl: 'js/profile/profile.html',
                 controller: 'ProfileCtrl'
             },
             'fabContent': {

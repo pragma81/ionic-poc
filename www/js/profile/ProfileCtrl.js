@@ -1,7 +1,7 @@
 angular.module('starter').controller('ProfileCtrl', ProfileController)
 
 
-function ProfileController($scope, $http, $localStorage, $location,$timeout,$q) {
+function ProfileController($scope, $http, $localStorage, $location,$timeout,$q, securityservice) {
 
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
@@ -20,13 +20,17 @@ function ProfileController($scope, $http, $localStorage, $location,$timeout,$q) 
         ionic.material.motion.fadeSlideInRight({
             startVelocity: 3000
         });
-    }, 1500);
+    }, 1700);
 
     // Set Ink
     ionic.material.ink.displayEffect();
 
     $scope.init = function() {
-         if($localStorage.hasOwnProperty("accessToken") === true) {
+        if( securityservice.isAuthenticated == false){
+             alert("Not signed in");
+            $location.path("/login");
+            }
+
         var meCall = $http.get("https://graph.facebook.com/v2.2/me", { params: { access_token: $localStorage.accessToken, fields: "id,name,gender,location,website,picture,cover,relationship_status", format: "json" }});
 
         var postCall = $http.get("https://graph.facebook.com/v2.2/me/posts", { params: { access_token: $localStorage.accessToken, fields: "message, picture, created_time, shares, comments", format: "json" }})
@@ -42,10 +46,7 @@ function ProfileController($scope, $http, $localStorage, $location,$timeout,$q) 
             alert("There was a problem getting your data.  Check the logs for details.");
             console.log(error);
         });
-    } else {
-        alert("Not signed in");
-        $location.path("/login");
-    }
+
 };
 
 
