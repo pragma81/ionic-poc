@@ -17,8 +17,19 @@ function LoginController($scope, $timeout, $state, $stateParams, $cordovaOauth, 
     ionic.material.ink.displayEffect();
 
 
-    $scope.login = function() {
+    $scope.loginFacebook = function() {
         securityservice.facebookLogin(
+            function(result){
+                $state.go('app.profile')},
+            function(error){
+                alert("There was a problem signing in!  See the console for logs");
+                console.log(error);
+            })
+
+    };
+
+     $scope.loginTwitter = function() {
+        securityservice.twitterLogin(
             function(result){
                 $state.go('app.profile')},
             function(error){

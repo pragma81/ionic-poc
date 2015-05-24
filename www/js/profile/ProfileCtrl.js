@@ -33,10 +33,10 @@ function ProfileController($scope, $http, $localStorage, $location,$timeout,$q, 
 
         var meCall = $http.get("https://graph.facebook.com/v2.2/me", { params: { access_token: $localStorage.accessToken, fields: "id,name,gender,location,website,picture,cover,relationship_status", format: "json" }});
 
-        var postCall = $http.get("https://graph.facebook.com/v2.2/me/posts", { params: { access_token: $localStorage.accessToken, fields: "message, picture, created_time, shares, comments", format: "json" }})
+        var postsCall = $http.get("https://graph.facebook.com/v2.2/me/posts", { params: { access_token: $localStorage.accessToken, fields: "message, picture, created_time, shares, comments", format: "json" }})
 
 
-        $q.all([meCall,postCall]).then(function(result) {
+        $q.all([meCall,postsCall]).then(function(result) {
             $scope.profileData = result[0].data;
             var coverUrl = "url("+result[0].data.cover.source+")"
             $scope.coverImg = {'background-image': coverUrl};
